@@ -1,0 +1,16 @@
+[user]
+    name = David Brady
+    email = dbrady@covermymeds.com
+
+[core]
+    excludesfile = /home/vagrant/.gitignore
+
+[push]
+    default = current
+
+[alias]
+    yolo = push -f
+    glog = log --all --pretty='format:%d %Cgreen%h%Creset %an - %s' --graph
+
+[help]
+    autocorrect = 1

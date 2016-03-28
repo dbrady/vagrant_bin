@@ -1,0 +1,22 @@
+#!/bin/bash
+
+rm -rf ~/bin
+rm -rf ~/dotfiles
+
+sudo rm -f /usr/bin/md5
+rm -f ~/code
+rm -f ~/.bashrc
+rm -f ~/.bash_profile
+
+rm -f ~/.bash_functions
+rm -f ~/.emacstiny
+rm -f ~/.bash_completions
+rm -f ~/.aliases
+rm -f ~/.vimrc
+rm -f ~/.irbrc
+rm -f ~/.ackrc
+rm -f ~/.gitconfig
+rm -f ~/.gitignore
+rm -f ~/.current-project
+
+

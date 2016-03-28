@@ -1,0 +1,21 @@
+#!/bin/bash
+
+./env-unsetup
+
+git clone git://github.com/dbrady/bin ~/bin
+git clone git://github.com/dbrady/dotfiles ~/dotfiles
+
+sudo ln -s /usr/bin/md5sum /usr/bin/md5
+ln -s /vagrant/code ~/code
+ln -s /vagrant/code/vagrant_bin/dotbash_profile ~/.bash_profile
+ln -s /vagrant/code/vagrant_bin/dotbashrc ~/.bashrc
+ln -s ~/dotfiles/dotaliases ~/.aliases
+touch ~/.current-project
+ln -s ~/dotfiles/bash_completions ~/.bash_completions
+ln -s ~/dotfiles/dotbash_functions ~/.bash_functions
+ln -s ~/dotfiles/dotvimrc ~/.vimrc
+ln -s ~/dotfiles/dotirbrc ~/.irbrc
+ln -s ~/dotfiles/dotackrc ~/.ackrc
+
+cp dotgitignore ~/.gitignore
+cp dotgitconfig ~/.gitconfig
