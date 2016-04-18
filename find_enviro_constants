@@ -1,0 +1,2 @@
+#!/bin/bash
+ruby -rcolorize -pe 'puts $_.gsub(/Enviro::[A-Z_][A-Z\d_]*\b/) {|s| s = s[8..-1]; "Enviro.get(#{s.downcase.split(/__/).map {|str| ":" + str}.join(", ")})".black.on_yellow }' $1

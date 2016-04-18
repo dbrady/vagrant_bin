@@ -1,0 +1,2 @@
+#!/bin/bash
+ruby -i -ne 'puts $_.gsub(/Enviro::[A-Z_][A-Z\d_]*/) {|s| s = s[8..-1]; "Enviro.get(#{s.downcase.split(/__/).map {|str| ":" + str}.join(", ")})" }' $1

@@ -1,0 +1,10 @@
+#!/bin/bash
+
+echo Checking ping results for key services...
+
+(curl 'https://api.dev.cmmint.net/users/_ping' | jq .) &&
+    (curl 'https://api.dev.cmmint.net/consumers/_ping' | jq .) &&
+    (curl 'https://api.dev.cmmint.net/drugs/_ping' | jq .) &&
+    (curl 'https://api.dev.cmmint.net/forms/_ping' | jq .) &&
+    (curl 'https://api.dev.cmmint.net/requests/_ping' | jq .) &&
+    (curl 'https://api.dev.cmmint.net/request-pages/_ping' | jq .)
