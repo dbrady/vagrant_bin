@@ -8,7 +8,7 @@ class File
 end
 
 class FormattedBranchPrinter
-  # scan a list of titles, then print them with first column left-justified to
+  # scan a list of projects, then print them with first column left-justified to
   # that size
   attr_accessor :longest
 
@@ -16,12 +16,21 @@ class FormattedBranchPrinter
     @longest = 0
   end
 
-  def scan(title)
-    self.longest = [longest, title.size].max
+  def scan(project)
+    self.longest = [longest, project.size].max
   end
 
-  def print(title, branch)
-    puts "%s%s%s" % [title, '.' * title_columns(title), branch]
+  def print_title_row
+    print_project "PROJECT", ' '
+    print_branch "BRANCH"
+    puts
+  end
+
+  def print_row(project, sha, branch, clean=true)
+    print_project project
+    print_sha colorize_branch(sha, branch) if sha
+    print_branch colorize_branch(branch, branch)
+    print_status clean
   end
 
   def print_separator
@@ -30,8 +39,36 @@ class FormattedBranchPrinter
 
   private
 
-  def title_columns(title)
-    3 + longest - title.size
+  def colorize_branch(text, branch)
+    color = case branch
+            when 'Not a git repo' then :light_black
+            when 'master' then :green
+            else
+              :yellow
+            end
+    text.send color
+  end
+
+  def print_project(project, pad = '.')
+    print "%s%s" % [project, pad * project_columns(project)]
+  end
+
+  def print_branch branch
+    print branch
+  end
+
+  def print_sha sha
+    print "(%s) " % sha
+  end
+
+  def print_status clean
+    status = " (%s)" % [clean ? 'CLEAN' : '*** CHANGES DETECTED ***']
+    status = status.send(clean ? :green : :red)
+    puts status
+  end
+
+  def project_columns(project)
+    3 + longest - project.size
   end
 end
 
@@ -43,7 +80,7 @@ Dir.glob(File.expand_path(File.join(File.dirname(__FILE__), '../*'))).each do |d
   name = dir.split("/").last
   table.scan name
 end
-table.print "PROJECT", "BRANCH"
+table.print_title_row
 table.print_separator
 
 Dir.glob(File.expand_path(File.join(File.dirname(__FILE__), '../*'))).each do |dir|
@@ -53,18 +90,11 @@ Dir.glob(File.expand_path(File.join(File.dirname(__FILE__), '../*'))).each do |d
   branch = `#{cmd}`.strip
 
 
-  color = case branch
-          when 'Not a git repo' then :light_black
-          when 'master' then :green
-          else
-            :yellow
-          end
+  cmd = %Q[(cd #{dir} && git rev-parse --short --quiet HEAD)]
+  sha = `#{cmd}`.strip
 
-  cmd = %Q|(cd #{dir} && git rev-parse --short --quiet HEAD)|
-  sha = '(' + `#{cmd}`.strip + ')'
+  cmd = %Q[(cd #{dir} && git status | grep 'working directory clean' > /dev/null && echo 'CLEAN')]
+  clean = `#{cmd}`.strip == 'CLEAN'
 
-  branch = sha + ' ' + branch
-
-  branch = branch.send color
-  table.print name, branch
+  table.print_row name, sha, branch, clean
 end
