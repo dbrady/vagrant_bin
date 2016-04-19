@@ -7,18 +7,44 @@ class File
   end
 end
 
-def print_columns(project, branch, longest)
-  puts "%s%s%s" % [project, '.' * (3 + longest - project.size), branch]
+class FormattedBranchPrinter
+  # scan a list of titles, then print them with first column left-justified to
+  # that size
+  attr_accessor :longest
+
+  def initialize
+    @longest = 0
+  end
+
+  def scan(title)
+    self.longest = [longest, title.size].max
+  end
+
+  def print(title, branch)
+    puts "%s%s%s" % [title, '.' * title_columns(title), branch]
+  end
+
+  def print_separator
+    puts '-' * (3 + longest + 20)
+  end
+
+  private
+
+  def title_columns(title)
+    3 + longest - title.size
+  end
 end
 
-longest = "PROJECT".size
+table = FormattedBranchPrinter.new
+table.scan "PROJECT"
+
 Dir.glob(File.expand_path(File.join(File.dirname(__FILE__), '../*'))).each do |dir|
   next unless File.git_repo? dir
   name = dir.split("/").last
-  longest = [longest, name.size].max
+  table.scan name
 end
-print_columns "PROJECT", "BRANCH", longest
-puts '-' * (longest + 3 + 10)
+table.print "PROJECT", "BRANCH"
+table.print_separator
 
 Dir.glob(File.expand_path(File.join(File.dirname(__FILE__), '../*'))).each do |dir|
   next unless File.git_repo? dir
@@ -40,5 +66,5 @@ Dir.glob(File.expand_path(File.join(File.dirname(__FILE__), '../*'))).each do |d
   branch = sha + ' ' + branch
 
   branch = branch.send color
-  print_columns name, branch, longest
+  table.print name, branch
 end
