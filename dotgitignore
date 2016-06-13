@@ -1,3 +1,6 @@
 .ruby-gemset
 .#*
 *.org
+.bundle
+tmp/
+.ruby-version
