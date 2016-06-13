@@ -37,6 +37,7 @@ source_files ~/.aliases \
   ~/code/vagrant_bin/ps1_functions \
   ~/.bash_functions \
   ~/.current-project \
+  ~/.private \
   /home/vagrant/.nix-profile/etc/profile.d/nix.sh
 
 # these must come after nix.sh has been sourced so that emacs is in PATH
