@@ -1,4 +1,13 @@
 #!/usr/bin/env ruby
+
+# whos_on_what - print a pretty chart of all the repos, what branch and commit
+# they are on, and if there are changes locally that might interfere with a git
+# pull on master.
+
+# Dumb cwd dependency: Run this from any repo, it will go up a folder and then
+# check all child folders--i.e. run this from a repo and it will check all peer
+# repos.
+
 require 'colorize'
 
 class File
