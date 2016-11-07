@@ -50,7 +50,8 @@ export GEMEDITOR=$(echo `which emacs`)
 complete -o default -o nospace -F _git_checkout go
 
 if command -v ps1_set >/dev/null 2>&1 ; then
-    ps1_set --prompt ∫
+    # ps1_set --prompt ∫
+    ps1_set --prompt "💊­"
 else
     export PS1="!!! It's \D{%H} O'Clock! Time to install rvm to fix your prompt!\n$ "
 fi
