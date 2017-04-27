@@ -13,6 +13,7 @@ ln -s ~/dotfiles/dotaliases ~/.aliases
 touch ~/.current-project
 ln -s ~/dotfiles/bash_completions ~/.bash_completions
 ln -s ~/dotfiles/dotbash_functions ~/.bash_functions
+ln -s ~/dotfiles/dotemacstiny.el ~/.emacstiny
 ln -s ~/dotfiles/dotvimrc ~/.vimrc
 ln -s ~/dotfiles/dotirbrc ~/.irbrc
 ln -s ~/dotfiles/dotackrc ~/.ackrc
